@@ -17,7 +17,7 @@ var gameScreen = {
     this.canvas.height = 500;
     this.ctx = this.canvas.getContext('2d');
     this.interval = setInterval(updateGameScreen)
-    document.addEventListener('keypress', handleInput)
+    document.addEventListener('keydown', handleInput)
   },
   clear : function() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -41,7 +41,12 @@ function component(width, height, x, y) {
     ctx.drawImage(ship_image, this.x, this.y, this.width, this.height);
   },
   this.movePos = function() {
-    this.x += this.speed;
+    if(this.x >= 10 && this.speed > 0) {
+      if(this.x < 440) {this.x += this.speed;}
+    }
+    if(this.x <= 440 && this.speed < 0) {
+      if(this.x > 10) {this.x += this.speed;}
+    }
   }
 }
 
@@ -57,13 +62,9 @@ function updateGameScreen() {
 function handleInput(event) {
   const key = event.key
   if (key === 'a') {
-    if (playerOne.x > 0) {
-      playerOne.speed = -1;
-    }
+    playerOne.speed = -1;
   } else if (key === 'd') {
-    if (playerOne.x < 440) {
-      playerOne.speed = 1;
-    }
+    playerOne.speed = 1;
   }
 }
 
